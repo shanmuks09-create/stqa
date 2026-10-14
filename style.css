@@ -1,0 +1,837 @@
+/* ==========================================================================
+   STQA Laboratory Experiment #1: Exact Screenshot Replica & Testing Suite
+   Recreating the exact Registration Page shown in the laboratory image
+   ========================================================================== */
+
+:root {
+  --font-system: 'Segoe UI', Tahoma, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, monospace;
+
+  /* Screenshot Specific Colors */
+  --replica-header-bg: #9BBFD9;
+  --replica-header-gradient: linear-gradient(to bottom, #A9C8DD 0%, #8FB6D3 100%);
+  --replica-header-text: #19446B;
+  --replica-body-bg: #FAF6CC;
+  --replica-border: #7F9DB9;
+  --replica-text: #2A2A2A;
+  --replica-hint-red: #A1382C;
+  --replica-btn-bg: linear-gradient(to bottom, #F6F6F6 0%, #E3E3E3 50%, #D2D2D2 100%);
+  --replica-btn-border: #707070;
+
+  /* Modern STQA Suite Colors */
+  --bg-page: #eef2f6;
+  --panel-bg: #ffffff;
+  --panel-border: #d8e2ec;
+  --primary: #1d4ed8;
+  --primary-hover: #1e40af;
+  --success: #15803d;
+  --success-bg: #ecfdf5;
+  --danger: #b91c1c;
+  --danger-bg: #fef2f2;
+  --warning: #b45309;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-system);
+  background-color: var(--bg-page);
+  color: #1e293b;
+  line-height: 1.4;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   1. TOP NAVIGATION & HEADER
+   ========================================================================== */
+.top-nav-bar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--panel-border);
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.nav-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.lab-tag {
+  background: #dbeafe;
+  color: #1e40af;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+.nav-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.build-switch-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}
+
+.switch-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.switch-btns {
+  display: flex;
+  gap: 4px;
+}
+
+.switch-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #475569;
+}
+
+.switch-btn.active {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #94a3b8;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-warn { background-color: #f59e0b; }
+.dot-success { background-color: #10b981; }
+
+.btn {
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary-nav {
+  background: #ffffff;
+  border: 1.5px solid #3b82f6;
+  color: #2563eb;
+}
+.btn-secondary-nav:hover {
+  background: #eff6ff;
+}
+
+/* ==========================================================================
+   2. MAIN LAYOUT
+   ========================================================================== */
+.main-page-container {
+  max-width: 1400px;
+  width: 100%;
+  margin: 1rem auto;
+  padding: 0 1.25rem;
+  flex: 1;
+}
+
+.lab-prompt-banner {
+  background: #fdfae6;
+  border: 1px solid #f2e29f;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #78350f;
+  margin-bottom: 1rem;
+}
+
+.split-view {
+  display: grid;
+  grid-template-columns: 570px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 1180px) {
+  .split-view {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   3. SCREENSHOT REPLICA FORM (IDENTICAL TO IMAGE)
+   ========================================================================== */
+.screenshot-replica-card {
+  background: var(--replica-body-bg);
+  border: 1px solid #c9c59f;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+/* Blue Header */
+.replica-header {
+  background: var(--replica-header-bg);
+  background: var(--replica-header-gradient);
+  border-bottom: 1px solid #7ea8c7;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.replica-title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--replica-header-text);
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+}
+
+.defect-marker {
+  font-size: 0.68rem;
+  color: #8b0000;
+  font-weight: 600;
+  background: #ffd8d8;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid #f5b0b0;
+}
+
+/* Yellow Form Body */
+.replica-body {
+  padding: 18px 20px;
+}
+
+.replica-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.col-label {
+  width: 135px;
+  vertical-align: middle;
+  padding-right: 8px;
+  font-family: Arial, Tahoma, sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--replica-text);
+}
+
+.col-input {
+  vertical-align: middle;
+  padding-right: 10px;
+}
+
+.col-hint {
+  vertical-align: middle;
+  font-family: Arial, Tahoma, sans-serif;
+  font-size: 11.5px;
+  color: #333333;
+  white-space: nowrap;
+}
+
+.valign-top { vertical-align: top; padding-top: 4px; }
+.valign-bottom { vertical-align: bottom; }
+.text-right { text-align: right; }
+
+/* Input Styling matching screenshot */
+.replica-input {
+  background: #ffffff;
+  border: 1px solid #7f9db9;
+  border-radius: 1px;
+  padding: 3px 6px;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: #000000;
+  width: 175px;
+  height: 23px;
+  outline: none;
+}
+
+.replica-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 2px #2563eb;
+}
+
+.replica-input.is-invalid {
+  border-color: #cc0000 !important;
+  background-color: #fff6f6;
+}
+
+.replica-input-wide {
+  width: 250px;
+}
+
+.replica-select {
+  background: #ffffff;
+  border: 1px solid #7f9db9;
+  border-radius: 1px;
+  padding: 2px 4px;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: #000000;
+  width: 155px;
+  height: 23px;
+  outline: none;
+  cursor: pointer;
+}
+
+.replica-select.is-invalid {
+  border-color: #cc0000 !important;
+  background-color: #fff6f6;
+}
+
+.hint-text {
+  font-size: 11.5px;
+  color: #333333;
+}
+
+.hint-red {
+  color: var(--replica-hint-red);
+  font-size: 11px;
+  font-family: Arial, sans-serif;
+}
+
+.defect-note-inline {
+  color: #b91c1c;
+  font-size: 10.5px;
+  font-style: italic;
+}
+
+/* CAPTCHA section in replica */
+.captcha-box-replica {
+  border: 1px solid #99b399;
+  background: #cee2ce;
+  display: inline-flex;
+  align-items: center;
+  padding: 1px;
+  position: relative;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.15);
+}
+
+#captchaCanvas {
+  display: block;
+}
+
+.captcha-mini-refresh {
+  background: #eef5ee;
+  border: 1px solid #8fad8f;
+  color: #1e3a1e;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 4px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.captcha-mini-refresh:hover {
+  background: #d4ebd4;
+}
+
+.captcha-instructions {
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  color: #2b2b2b;
+  margin-bottom: 4px;
+  line-height: 1.25;
+}
+
+.captcha-input-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.captcha-input-small {
+  width: 145px;
+  height: 22px;
+}
+
+/* Classic Register Button matching screenshot */
+.replica-register-btn {
+  background: #e1e1e1;
+  background: var(--replica-btn-bg);
+  border: 1px solid var(--replica-btn-border);
+  border-radius: 2px;
+  color: #000000;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 14px;
+  cursor: pointer;
+  box-shadow: inset 1px 1px 0 #ffffff, 0 1px 2px rgba(0,0,0,0.15);
+  min-width: 68px;
+  height: 25px;
+}
+
+.replica-register-btn:hover {
+  background: linear-gradient(to bottom, #ffffff 0%, #ebebeb 50%, #dddddd 100%);
+  border-color: #555555;
+}
+
+.replica-register-btn:active {
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.25);
+  background: #dcdcdc;
+}
+
+/* Error message under replica inputs */
+.error-msg {
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #cc0000;
+  display: none;
+  margin-top: 2px;
+  line-height: 1.2;
+}
+
+.error-msg.active {
+  display: block;
+}
+
+.replica-alert {
+  background: #fdf0f0;
+  border: 1px solid #facdcd;
+  color: #b91c1c;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 2px;
+  margin-bottom: 12px;
+}
+
+.replica-success-alert {
+  margin-top: 14px;
+  background: #ebfbee;
+  border: 1px solid #b7ebbe;
+  color: #1b6826;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  border-radius: 2px;
+}
+
+.replica-action-bar {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed #d5d1a5;
+  display: flex;
+  gap: 8px;
+}
+
+.btn-light {
+  background: #ffffff;
+  border: 1px solid #c2be98;
+  color: #333333;
+  font-size: 11.5px;
+}
+
+.btn-light:hover {
+  background: #f5f2c4;
+}
+
+/* ==========================================================================
+   4. STQA TEST SUITE & DEFECT PANEL (RIGHT COLUMN)
+   ========================================================================== */
+.stqa-suite-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.suite-tabs {
+  display: flex;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #64748b;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.tab-btn:hover {
+  color: #0f172a;
+}
+
+.tab-btn.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  background: #ffffff;
+}
+
+.tab-panel {
+  display: none;
+  padding: 1rem;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* Metrics Row */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.metric-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
+  text-align: center;
+}
+
+.m-val {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #0f172a;
+}
+
+.m-lbl {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.metric-card.passed { background: #ecfdf5; border-color: #a7f3d0; }
+.metric-card.passed .m-val { color: #059669; }
+.metric-card.failed { background: #fef2f2; border-color: #fecaca; }
+.metric-card.failed .m-val { color: #dc2626; }
+
+.runner-btn-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.btn-primary-runner {
+  background: #16a34a;
+  color: #ffffff;
+  border: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.btn-primary-runner:hover {
+  background: #15803d;
+}
+
+/* Test Case Cards List */
+.tc-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.tc-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid #94a3b8;
+  border-radius: 4px;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.78rem;
+  transition: all 0.15s ease;
+}
+
+.tc-card.status-pass {
+  border-left-color: #16a34a;
+  background: #fafdfa;
+}
+
+.tc-card.status-fail {
+  border-left-color: #dc2626;
+  background: #fffcfc;
+}
+
+.tc-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.tc-id {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #1e293b;
+  background: #f1f5f9;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.72rem;
+}
+
+.tc-name {
+  font-weight: 700;
+  color: #0f172a;
+  margin-left: 5px;
+}
+
+.tc-badge-status {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+.badge-pass { background: #dcfce7; color: #15803d; }
+.badge-fail { background: #fee2e2; color: #b91c1c; }
+.badge-pending { background: #f1f5f9; color: #64748b; }
+
+.tc-desc {
+  color: #475569;
+  font-size: 0.74rem;
+  margin-bottom: 4px;
+}
+
+.tc-expected {
+  font-size: 0.73rem;
+  color: #0369a1;
+  background: #f0f9ff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+
+.tc-actual {
+  font-size: 0.73rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: none;
+}
+
+.tc-actual.show-pass {
+  display: block;
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.tc-actual.show-fail {
+  display: block;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.tc-card-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.btn-tc-run {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-tc-run:hover {
+  background: #1d4ed8;
+}
+
+.btn-tc-load {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-tc-load:hover {
+  background: #e2e8f0;
+}
+
+/* Defect Table */
+.defect-table-wrapper {
+  padding: 0.25rem;
+}
+
+.defect-table-header h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.defect-table-header p {
+  font-size: 0.76rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+}
+
+.stqa-defect-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.76rem;
+  text-align: left;
+}
+
+.stqa-defect-table th {
+  background: #f8fafc;
+  padding: 6px 8px;
+  font-weight: 700;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.stqa-defect-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+}
+
+.badge-defect-open {
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+}
+
+.badge-defect-closed {
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+}
+
+/* Execution Console */
+.console-wrapper {
+  background: #0f172a;
+  border-radius: 4px;
+  color: #f8fafc;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  overflow: hidden;
+}
+
+.console-head {
+  background: #1e293b;
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.btn-clear-console {
+  background: transparent;
+  border: 1px solid #475569;
+  color: #cbd5e1;
+  font-size: 0.68rem;
+  padding: 1px 5px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.console-body {
+  padding: 8px 10px;
+  height: 380px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.log-line.info { color: #94a3b8; }
+.log-line.step { color: #60a5fa; }
+.log-line.pass { color: #4ade80; font-weight: 600; }
+.log-line.fail { color: #f87171; font-weight: 600; }
+
+/* Footer */
+.footer-bar {
+  margin-top: auto;
+  background: #ffffff;
+  border-top: 1px solid var(--panel-border);
+  padding: 0.65rem 1.5rem;
+  font-size: 0.75rem;
+  color: #64748b;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-bar a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
